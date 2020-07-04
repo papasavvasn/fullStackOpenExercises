@@ -8,7 +8,13 @@ const App = () => {
 
   function addName(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setPersons([...persons, { name: newName }])
+    const names = persons.map(person => person.name)
+    if (!names.includes(newName)) {
+      names.push(newName)
+      setPersons([...persons, { name: newName }])
+    } else {
+      window.alert(`${newName} is already added to phonebook`)
+    }
   }
 
 
