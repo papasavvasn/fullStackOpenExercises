@@ -1,15 +1,24 @@
-import React, { useState, FormEvent } from 'react'
+import React, { useState, useEffect, FormEvent } from 'react'
+import axios from "axios"
 import { EntryAdder } from "./EntryAdder"
 import { Filter } from './Filter'
-import { Persons } from './Persons'
+import { Persons, Person } from './Persons'
 
 
 const App = () => {
 
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '040-1234567' }])
+  const [persons, setPersons] = useState<Person[]>([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
 
   const EntryAdderCallbacks = {
     addName: (event: FormEvent<HTMLFormElement>) => {
@@ -17,7 +26,7 @@ const App = () => {
       const names = persons.map(person => person.name)
       if (!names.includes(newName)) {
         names.push(newName)
-        setPersons([...persons, { name: newName, number: newNumber }])
+        setPersons([...persons, { name: newName, number: newNumber, id: persons.length + 1 }])
       } else {
         window.alert(`${newName} is already added to phonebook`)
       }
