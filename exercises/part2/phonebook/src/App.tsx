@@ -25,8 +25,8 @@ const App = () => {
       event.preventDefault()
       const names = persons.map(person => person.name)
       if (!names.includes(newName)) {
-        names.push(newName)
-        setPersons([...persons, { name: newName, number: newNumber, id: persons.length + 1 }])
+        axios.post('http://localhost:3001/persons', { name: newName, number: newNumber, id: persons.length + 1 })
+          .then(({ data }) => setPersons([...persons, { name: data.name, number: data.number, id: data.id }]))
       } else {
         window.alert(`${newName} is already added to phonebook`)
       }
