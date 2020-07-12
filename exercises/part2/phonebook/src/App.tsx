@@ -24,7 +24,7 @@ const App = () => {
       event.preventDefault()
       const names = persons.map(person => person.name)
       if (!names.includes(newName)) {
-        personService.addPerson({ name: newName, number: newNumber, id: persons.length + 1 })
+        personService.addPerson({ name: newName, number: newNumber, id: persons.length + 1 + "" })
           .then(({ data }) => setPersons([...persons, { name: data.name, number: data.number, id: data.id }]))
       } else {
         window.alert(`${newName} is already added to phonebook`)
@@ -47,7 +47,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <EntryAdder newName={newName} newNumber={newNumber} {...EntryAdderCallbacks} />
-      <Persons filter={filter} persons={persons} />
+      <Persons filter={filter} persons={persons} setPersons={setPersons} />
     </div>
   )
 }
