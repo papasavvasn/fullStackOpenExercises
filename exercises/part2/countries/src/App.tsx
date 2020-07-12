@@ -3,7 +3,6 @@ import axios from "axios"
 import { Filter } from './Filter'
 import { Countries, CountryType } from './Countries'
 
-
 const App = () => {
 
   const [countries, setCountries] = useState<CountryType[]>([])
