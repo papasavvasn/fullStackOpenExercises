@@ -8,8 +8,11 @@ const addPerson = ({ name, number, id }: Person) => axios.post('http://localhost
 
 const deletePerson = (id: string) => axios.delete(`${baseUrl}/${id}`)
 
+const updatePerson = ({ name, number, id }: Person) => axios.put(`${baseUrl}/${id}`, { number, name, id })
+
 export default {
     addPerson,
     deletePerson,
-    getPersons
+    getPersons,
+    updatePerson
 }

@@ -27,8 +27,18 @@ const App = () => {
         personService.addPerson({ name: newName, number: newNumber, id: persons.length + 1 + "" })
           .then(({ data }) => setPersons([...persons, { name: data.name, number: data.number, id: data.id }]))
       } else {
-        window.alert(`${newName} is already added to phonebook`)
+        if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one`)) {
+          personService.updatePerson({ number: newNumber, id: persons.find(person => person.name === newName)!.id, name: newName })
+            .then(({ status, data }) => {
+              if (status === 200) {
+                setPersons([...persons.filter(person => person.id !== data.id), data])
+              }
+            }
+            )
+        }
       }
+      setNewName("")
+      setNewNumber("")
     },
     handleNameChange: (event: { target: HTMLInputElement }) => {
       setNewName(event.target.value)
