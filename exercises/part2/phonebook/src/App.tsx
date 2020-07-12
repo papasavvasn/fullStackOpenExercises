@@ -1,8 +1,8 @@
 import React, { useState, useEffect, FormEvent } from 'react'
-import axios from "axios"
 import { EntryAdder } from "./EntryAdder"
 import { Filter } from './Filter'
 import { Persons, Person } from './Persons'
+import personService from './services/persons'
 
 
 const App = () => {
@@ -13,8 +13,7 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
+    personService.getPersons()
       .then(response => {
         setPersons(response.data)
       })
@@ -25,7 +24,7 @@ const App = () => {
       event.preventDefault()
       const names = persons.map(person => person.name)
       if (!names.includes(newName)) {
-        axios.post('http://localhost:3001/persons', { name: newName, number: newNumber, id: persons.length + 1 })
+        personService.addPerson({ name: newName, number: newNumber, id: persons.length + 1 })
           .then(({ data }) => setPersons([...persons, { name: data.name, number: data.number, id: data.id }]))
       } else {
         window.alert(`${newName} is already added to phonebook`)
