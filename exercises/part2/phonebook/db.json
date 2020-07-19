@@ -1,23 +1,18 @@
 {
   "persons": [
     {
-      "name": "Alexandr",
-      "number": "5478963",
-      "id": 7
+      "name": "nikos",
+      "number": "5525",
+      "id": "5"
     },
     {
-      "number": "456984",
-      "name": "Alexa",
-      "id": "2"
+      "name": "Thanasis",
+      "number": "545210",
+      "id": "6"
     },
     {
-      "number": "458",
-      "name": "Markus",
-      "id": "3"
-    },
-    {
-      "number": "1234",
-      "name": "Some",
+      "name": "Vamvakoulas",
+      "number": "646546546",
       "id": "4"
     }
   ]

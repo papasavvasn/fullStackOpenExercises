@@ -7,15 +7,22 @@ export type Person = {
     id: string
 }
 
-export const Persons = ({ persons, filter, setPersons }: { persons: Person[], filter: string, setPersons: (persons: Person[]) => void }) => {
+type PersonProps = {
+    persons: Person[],
+    filter: string,
+    setPersons: (persons: Person[]) => void,
+    displayNotification: ({ message, type }: { message: string, type: "success" | "error" }) => void;
+}
 
-    const clickHandler = (id: string) => {
+export const Persons = ({ persons, filter, setPersons, displayNotification }: PersonProps) => {
+
+    const clickHandler = ({ id, name }: Person) => {
         if (window.confirm(`Delete ${persons.find(person => person.id === id)?.name}`)) {
             personsService.deletePerson(id).then(({ status }) => {
                 if (status === 200) {
                     setPersons(persons.filter(person => person.id !== id))
                 }
-            })
+            }).catch(() => displayNotification({ message: `Information of ${name} has already been removed from the server`, type: "error" }))
 
         }
     }
@@ -23,7 +30,7 @@ export const Persons = ({ persons, filter, setPersons }: { persons: Person[], fi
     return <>
         {persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
             .map(person =>
-                <p key={person.name}>{person.name} {person.number} <button onClick={() => clickHandler(person.id)}>Delete</button> </p>
+                <p key={person.name}>{person.name} {person.number} <button onClick={() => clickHandler(person)}>Delete</button> </p>
             )}
     </>
 }
