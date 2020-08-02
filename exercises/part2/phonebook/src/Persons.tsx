@@ -19,7 +19,7 @@ export const Persons = ({ persons, filter, setPersons, displayNotification }: Pe
     const clickHandler = ({ id, name }: Person) => {
         if (window.confirm(`Delete ${persons.find(person => person.id === id)?.name}`)) {
             personsService.deletePerson(id).then(({ status }) => {
-                if (status === 200) {
+                if (status === 204) {
                     setPersons(persons.filter(person => person.id !== id))
                 }
             }).catch(() => displayNotification({ message: `Information of ${name} has already been removed from the server`, type: "error" }))
