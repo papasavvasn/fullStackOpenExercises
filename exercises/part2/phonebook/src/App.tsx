@@ -45,7 +45,10 @@ const App = () => {
             setPersons([...persons, { name: data.name, number: data.number, id: data.id }])
             displayNotification({ message: `Added ${data.name}`, type: "success" })
           }
-          )
+          ).catch(error => {
+            // https://stackoverflow.com/a/41371805  axios decorates the error object
+            displayNotification({ message: error.response.data.error, type: "error" })
+          })
       } else {
         if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one`)) {
           personService.updatePerson({ number: newNumber, id: persons.find(person => person.name === newName)!.id, name: newName })
@@ -54,7 +57,10 @@ const App = () => {
                 setPersons([...persons.filter(person => person.id !== data.id), data])
                 displayNotification({ message: `Updated ${data.name}`, type: "success" })
               }
-            }).catch(() => displayNotification({ message: `Information of ${newName} has already been removed from the server`, type: "error" }))
+            }).catch(error => {
+              displayNotification({ message: error.response.data.error, type: "error" })
+            }
+            )
         }
       }
       setNewName("")
